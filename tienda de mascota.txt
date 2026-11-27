@@ -1,0 +1,87 @@
+CREATE DATABASE bd_tienda_de_mascota;
+
+create table tb_cliente (
+  id_cliente int primary key,
+  nombre varchar(50),
+  telefono varchar(45),
+  dirrecion varchar(100)
+  );
+  
+  create table tb_ventas (
+    id_ventas int primary key,
+    fecha_venta date,
+    total int
+    );
+    
+    create table tb_productos (
+      id_producto int primary key,
+      nombre varchar (50),
+      categoria varchar (45),
+      precio int,
+      cantidad int
+      );
+      
+      create table tb_vacunas (
+        id_vacuna int primary key,
+        nombre varchar (50),
+        tipo varchar (44),
+        descripcion varchar (200)
+        );
+        
+    create table tb_carton_vacunacion (
+     id_vacunacion int primary key,
+     fecha_aplicion date,
+     proxima_dosis date,
+     veterinario varchar (100)
+     );
+     
+   create table bd_mascotas (
+     id_mascotas int primary key,
+     nombre varchar (55),
+     especie varchar(55),
+     raza varchar (55),
+     edad int
+     );
+
+     ALTER TABLE tb_ventas
+ADD COLUMN id_cliente INT;
+
+ALTER TABLE bd_mascotas
+ADD COLUMN id_cliente INT;
+
+ALTER TABLE tb_carton_vacunacion
+ADD COLUMN id_mascotas INT;
+
+ALTER TABLE tb_carton_vacunacion
+ADD COLUMN id_vacuna INT;
+
+ALTER TABLE tb_ventas
+ADD CONSTRAINT fk_ventas_cliente
+FOREIGN KEY (id_cliente)
+REFERENCES tb_cliente(id_cliente)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
+
+
+ALTER TABLE bd_mascotas
+ADD CONSTRAINT fk_mascotas_cliente
+FOREIGN KEY (id_cliente)
+REFERENCES tb_cliente(id_cliente)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
+
+
+ALTER TABLE tb_carton_vacunacion
+ADD CONSTRAINT fk_carton_mascotas
+FOREIGN KEY (id_mascotas)
+REFERENCES bd_mascotas(id_mascotas)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
+
+
+ALTER TABLE tb_carton_vacunacion
+ADD CONSTRAINT fk_carton_vacunas
+FOREIGN KEY (id_vacuna)
+REFERENCES tb_vacunas(id_vacuna)
+ON UPDATE CASCADE
+ON DELETE RESTRICT;
